@@ -1,0 +1,303 @@
+#include<stdio.h>
+#include<conio.h>
+#include<ctype.h>
+#include<stdio.h>
+using namespace std;
+
+typedef struct node {
+	int key;
+	char name[10];
+	struct node*next;
+}TNODE;
+
+TNODE *frist, *last;
+
+int LoadNode(TNODE *p);
+void Freenode(TNODE *p);
+void PrintNode(TNODE *p);
+
+void CreateList()
+{
+	TNODE *p;
+	int n=sizeof(TNODE);
+	
+	frist=last=0;
+	for(;;)
+	{
+		if((p=(TNODE*)malloc(n))==0)
+		{
+			printf("\nmemori tidak cukup");
+			break;
+		}
+		if(LoadNode(p)!=1)
+		{
+			FreeNode(p);
+			break;
+		}
+		p->next=0;
+		if(frist==0)
+			frist=last=p;
+			last=p;
+		else{
+			last>next=p;
+			last=p;
+		}
+	}
+}
+
+int LoadNode(TNODE *p)
+{
+	char opt;
+	printf("\nMAasukan node baru?");
+	opt=getche();
+	opt=toupper(opt);
+	if(opt='N'){
+		puts("\nMasukan data untuk node:");
+		printf("\nlkey:\t");
+		if(scanf("%d"&(p->lkey))!=1)return 0;
+		
+		printf("\nname;\t");if(scanf("%s",p->name)!=1)
+return 0;
+		return 1;
+	}
+	else
+		return-1;
+}
+
+void FreeNode(TNODE *p){
+	free(p);
+}
+
+void ViewAllList()
+{
+	TNODE *p;
+	p=frist;
+	while(p){
+		PrintNode(p);
+		p=p->next;
+	}
+}
+
+TNODE* FindNode(int key)
+{
+	TNODE *p;
+	p=frist;
+	while(p){
+		if(p->key==key)return p;
+		p=p->next;
+	}
+	return 0;
+}
+
+void PrintNode(TNODE *p)
+{
+	if(p) prrintf("\n%d\t%s",p->lkey,p->name);
+}
+
+TNODE *p InsertBeforeFrist()
+{
+	TNODE *p;
+	int n=sizeof(TNODE);
+	if (((p=(TNODE*)maloc(n))!=0)&&(LoadNode(p)==1))
+	{
+		if(frist==0){
+			p->next=0;
+			frist=last=p;
+		}
+		else{
+			p-.next=frist;
+			frist=p;
+		}
+		return p;
+	}
+	if(p==0)
+		printf("\nMemori tidak cukup");
+	else
+		FreeNode(p);
+	return 0;
+}
+
+TNODE *insertBeforeKey(int key)
+{
+	TNODE *p, *q, *q1;
+	int n=sizeof(TNODE);
+	
+	q1=0;
+	q=frist;
+	while(q){
+		if(q-.lkey==key)break;
+		q1=q;
+		q=q->next;
+	}
+	if(q==0){
+		printf("\nTidak ada node yang mempunyai kunci atau senarai kosong");
+		return=0;
+	}
+	if(((p=(TNODE*)malloc(n))!=0)&&(LoadNode(p)==1)){
+		if(q==frist){
+			p->net=frist;
+			frist=p;
+		}
+		else{
+			p->next=q;
+			q1->next=p;
+		}
+		return p;
+	}
+	if(p==0)
+		printf("\nMemori tidak cukup");
+	else
+		FreeNode(p);
+	return 0;
+}
+TNODE* InsertAfterLast()
+{
+	TNODE *p;
+	int n=sizeof(TNODE);
+	if(((p=(TNODE*)malloc(n))!==0)&&(LadNode(p)==1))
+	{
+		if(q==last){
+			p->next=0;
+			last->next=p;
+			last=p;
+		}
+		else{
+			p->next=q->next;
+			q->next=p;
+		}
+		return p;
+	}
+	if(p==0)
+		printf("\nMemori tidak cukup");
+	else
+		FreeNode(p);
+	return 0;
+}
+
+TNODE* InsertAfterLast()
+{
+	TNODE *p;
+	int n=sizeof(TNODE);
+	if(((p=(TNODE*)malloc(n))!==0)&&(LadNode(p)==1))
+	{
+		p->next=0;
+		if(frist==0)
+			frist=last=p;
+		else {
+			last->next=p;
+			last=p;
+		}
+		return=p;
+	}
+	if(p==0)
+		printf("\nMemori tidak cukuip");
+	else
+		FreeNode(p);
+	return 0;
+}
+
+viod RemoveFrist()
+{
+	TNODE *p;
+	
+	if(frist==0)
+		return;
+	if(frist==last){
+		FreeNode(frist);
+		frist=last=0;
+		return;
+	}
+	p=frist;
+	frist=frist->next;
+		FreeNode(p);
+}
+
+void RemoveLast()
+{
+	TNODE *p, *q;
+	
+	if(frist==0)
+		return;
+	if(frist==last){
+		FreeNode(frist);
+		frist=last=0;
+		return;
+	}
+	q=0;
+	p=frist;
+	while(p=last){
+		q=p;
+		p=p->next;
+	}
+	p=last;
+	FreeNode(p);
+	q->next=0;
+	last=q;
+}
+
+void RemoveByKEy(int key)
+{
+	TNODE *p, *q;
+	
+	if(frist==0)
+		return;
+	q=0;
+	p=frist;
+	while(p){
+		if(p->key==key)break;
+		q=p;
+		p=p->next;
+	}
+	if(!p){
+		printf("\nTidak ada node yang mempunyai kunci");
+		return;
+	}
+	
+	if(frist==last){
+		FreeNode(frist);
+		frist=last=0;
+		return;
+	}
+	if(p==frist){
+		FreeNode(frist);
+		FreeNode(p);
+		return;
+	}
+	if(p==last){
+		p->next=0;
+		last=q;
+		FreeNode(p);
+		return;
+	}
+	q->next=p->next;
+	FreeNode(p);
+}
+
+void DeleteList
+{
+	TNODE *p;
+	
+	p=frist;
+	while(p){
+		frist=frist->next;
+		FreeNode(p);
+		p=frist;
+	}
+	last=0;
+}
+
+void main()
+{
+	CreateList();
+	ViewAllList();
+	InsertAfterList();
+	ViewAllList();
+	RemoveFrist();
+	ViewAllList();
+	InsertAfterKey(1);
+	ViewAllList();
+	RemoveByKey(1);
+	ViewAllList();
+	DeleteList();
+	ViewAllList();
+}
